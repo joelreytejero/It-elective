@@ -59,7 +59,7 @@
                         </select>
 
                         <br>
-                   W     <input type="submit">
+                        <input type="submit">
                     </div>
                 </form>
             </div>
