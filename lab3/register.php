@@ -10,9 +10,8 @@
     <main class="page-shell">
         <section class="glass-card" aria-labelledby="page-title">
             <div class="card-heading">
-                <span class="eyebrow">Student portal</span>
-                <h1 id="page-title">Create your account</h1>
-                <p>Register once and keep your student profile ready.</p>
+                <h1 id="page-title">Register</h1>
+                <p>Fill in your details below.</p>
             </div>
 
             <form class="glass-form" action="register_process.php" method="post">

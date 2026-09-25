@@ -1,54 +1,36 @@
 <?php
-require_once __DIR__ . '/../includes/db.php';
-
-$regex = "/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{5,20}$/"; 
-$firstname = $_POST['fname'];
-$lastname = $_POST['lname'];
-$email = $_POST['email'];
-$password = test_input($_POST['password']);
-$confirmPassword = test_input($_POST['cpassword']);
-$birthday = $_POST['birthday'];
-$gender = $_POST['gender'];
-$course = $_POST['course'];
+$regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{5,20}$/";
 
 function test_input($data)
 {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+    return htmlspecialchars(trim($data));
 }
-if(empty($firstname) || empty($lastname) || empty($email) || empty($password) || empty($confirmPassword) || empty($birthday) || empty($gender) || empty($course)) {
-    $title = "Missing Required Fields !";
-    $message = "Please fill in all the required fields.";
+
+$firstname = test_input($_POST['fname'] ?? '');
+$lastname = test_input($_POST['lname'] ?? '');
+$email = test_input($_POST['email'] ?? '');
+$password = $_POST['password'] ?? '';
+$confirmPassword = $_POST['cpassword'] ?? '';
+$birthday = test_input($_POST['birthday'] ?? '');
+$gender = test_input($_POST['gender'] ?? '');
+$course = test_input($_POST['course'] ?? '');
+
+if (empty($firstname) || empty($lastname) || empty($email) || empty($password) || empty($confirmPassword) || empty($birthday) || empty($gender) || empty($course)) {
+    $title = 'Missing required fields';
+    $message = 'Please fill in all required fields.';
+} elseif ($password !== $confirmPassword) {
+    $title = 'Passwords do not match';
+    $message = 'The passwords you entered do not match.';
+} elseif (!preg_match($regex, $password)) {
+    $title = 'Password requirements not met';
+    $message = 'Use 5–20 characters with uppercase, lowercase, and a number.';
 } else {
-if ($password == $confirmPassword) {
-    if (!preg_match($regex, $password)) {
-        $title = "Password complexity requirements does not meet.";
-        $message = "Password must contain: Only lowercase, atleast (1) number, no special character, and no white spaces.";
-    } else {
-        $pdo = get_db();
-
-        $check = $pdo->prepare('SELECT COUNT(*) FROM users WHERE email = ?');
-        $check->execute([$email]);
-
-        if ($check->fetchColumn() > 0) {
-            $title = "Email already registered !";
-            $message = "This email is already in use.";
-        } else {
-            $title = "Registration Saved !";
-            $message = "Full Name: " . htmlspecialchars($firstname . ' ' . $lastname) .
-            "<br>Email : " . htmlspecialchars($email) .
-            "<br>Birthday : " . htmlspecialchars($birthday) .
-            "<br>Gender : " . htmlspecialchars($gender) .
-            "<br>Course : " . htmlspecialchars($course);
-        }
-
-    }
-} else {
-    $title = "Wrong Confirmation Password !";
-    $message = "The passwords you entered do not match.";
-}
+    $title = 'Registration submitted';
+    $message = 'Full Name: ' . $firstname . ' ' . $lastname .
+        '<br>Email: ' . $email .
+        '<br>Birthday: ' . $birthday .
+        '<br>Gender: ' . $gender .
+        '<br>Course: ' . $course;
 }
 ?>
 <!DOCTYPE html>
