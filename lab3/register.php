@@ -1,87 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
+    <title>Create Account</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <form action="register_process.php" method="post">
-                    <div class="mb-3">
-                        <label class="RegHeader">👤 Register Here !</label>
+    <main class="page-shell">
+        <section class="glass-card" aria-labelledby="page-title">
+            <div class="card-heading">
+                <span class="eyebrow">Student portal</span>
+                <h1 id="page-title">Create your account</h1>
+                <p>Register once and keep your student profile ready.</p>
+            </div>
 
-                        First Name :
-                        <input type="text" name="fname" class="form-control"><br>
-                        Last Name :
-                        <input type="text" name="lname" class="form-control"><br>
-                        E-mail :
-                        <input type="text" name="email" class="form-control"><br>
+            <form class="glass-form" action="register_process.php" method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fname">First name</label>
+                        <input type="text" id="fname" name="fname" class="form-control" placeholder="Juan" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lname">Last name</label>
+                        <input type="text" id="lname" name="lname" class="form-control" placeholder="Dela Cruz" required>
+                    </div>
+                </div>
 
-                        Password :
-                        <div class="input-group mb-3">
-                            <input type="password" name="password" id="password" class="form-control">
-                            <button class="btn btn-eye" type="button" id="togglePassword" aria-label="Show password">
-                                <i class="bi bi-eye" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="you@email.com" required>
+                </div>
 
-                        Confirm Password :
-                        <div class="input-group mb-3">
-                            <input type="password" name="cpassword" id="cpassword" class="form-control">
-                            <button class="btn btn-eye" type="button" id="toggleCPassword" aria-label="Show password">
-                                <i class="bi bi-eye" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="5–20 characters" minlength="5" maxlength="20" required>
+                        <button class="password-toggle" type="button" data-target="password" aria-label="Show password">Show</button>
+                    </div>
+                    <small>Use uppercase, lowercase, and a number.</small>
+                </div>
 
-                        Gender : <br><br>
-                        <input type="radio" id="male" name="gender" value="Male">
-                        Male
-                        <input type="radio" id="female" name="gender" value="Female">
-                        Female 
-                        <input type="radio" id="other" name="gender" value="Other">
-                        Other<br><br>
+                <div class="form-group">
+                    <label for="cpassword">Confirm password</label>
+                    <div class="password-field">
+                        <input type="password" id="cpassword" name="cpassword" class="form-control" placeholder="Repeat your password" minlength="5" maxlength="20" required>
+                        <button class="password-toggle" type="button" data-target="cpassword" aria-label="Show password">Show</button>
+                    </div>
+                </div>
 
-                        Birthday :
-                        <input type="date" name="birthday" class="form-control"><br>
-
-                        Course :<br>
-                        <select name="course" class="form-select">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birthday">Birthday</label>
+                        <input type="date" id="birthday" name="birthday" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course">Course</label>
+                        <select id="course" name="course" class="form-control" required>
+                            <option value="" selected disabled>Select course</option>
                             <option value="Bachelor of Information Technology">BSIT</option>
                             <option value="Bachelor of Education">BSED</option>
                             <option value="Criminology">BSCRIM</option>
                             <option value="Bachelor of Computer Science">BSCS</option>
                         </select>
-
-                        <br>
-                        <input type="submit">
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                </div>
+
+                <fieldset class="form-group">
+                    <legend>Gender</legend>
+                    <div class="choice-row">
+                        <label class="choice"><input type="radio" name="gender" value="Male" required><span>Male</span></label>
+                        <label class="choice"><input type="radio" name="gender" value="Female"><span>Female</span></label>
+                        <label class="choice"><input type="radio" name="gender" value="Other"><span>Other</span></label>
+                    </div>
+                </fieldset>
+
+                <button class="btn-glass" type="submit">Create account <span aria-hidden="true">→</span></button>
+            </form>
+        </section>
+    </main>
 
     <script>
-        function setupToggle(buttonId, inputId) {
-            const btn = document.getElementById(buttonId);
-            const input = document.getElementById(inputId);
-            const icon = btn.querySelector("i");
-
-            btn.addEventListener("click", function () {
-                const isPassword = input.type === "password";
-                input.type = isPassword ? "text" : "password";
-                icon.classList.toggle("bi-eye");
-                icon.classList.toggle("bi-eye-slash");
+        document.querySelectorAll(".password-toggle").forEach(function (button) {
+            button.addEventListener("click", function () {
+                var input = document.getElementById(button.dataset.target);
+                var isHidden = input.type === "password";
+                input.type = isHidden ? "text" : "password";
+                button.textContent = isHidden ? "Hide" : "Show";
+                button.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
             });
-        }
-
-        setupToggle("togglePassword", "password");
-        setupToggle("toggleCPassword", "cpassword");
+        });
     </script>
 </body>
 </html>
