@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/db.php';
 
-$regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{5,20}$/";
+$regex = "/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{5,20}$/"; 
 $firstname = $_POST['fname'];
 $lastname = $_POST['lname'];
 $email = $_POST['email'];
@@ -37,7 +37,7 @@ if ($password == $confirmPassword) {
             $message = "This email is already in use.";
         } else {
             $title = "Registration Saved !";
-            $message = "Full Name: " . htmlspecialchars($fname . ' ' . $lname) .
+            $message = "Full Name: " . htmlspecialchars($firstname . ' ' . $lastname) .
             "<br>Email : " . htmlspecialchars($email) .
             "<br>Birthday : " . htmlspecialchars($birthday) .
             "<br>Gender : " . htmlspecialchars($gender) .
@@ -46,7 +46,7 @@ if ($password == $confirmPassword) {
 
     }
 } else {
-    $title = "❎ Wrong Confirmation Password !";
+    $title = "Wrong Confirmation Password !";
     $message = "The passwords you entered do not match.";
 }
 }
@@ -61,90 +61,60 @@ if ($password == $confirmPassword) {
     <link rel="stylesheet" href="style.css">
     <title>Registration Result</title>
     <style>
-        :root {
-            color-scheme: dark;
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            min-height: 100vh;
-            margin: 0;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-            color: #f8fafc;
-            background:
-                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.42), transparent 32%),
-                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.42), transparent 34%),
-                linear-gradient(135deg, #0f172a, #312e81 55%, #581c87);
-        }
-
         .result-card {
-            position: relative;
-            width: min(100%, 640px);
-            padding: 2.75rem;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            max-width: 640px;
+            margin: 10vh auto;
+            padding: 2.5rem;
             border-radius: 28px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(28px) saturate(160%);
-            -webkit-backdrop-filter: blur(28px) saturate(160%);
-        }
+            text-align: center;
+            color: #1d1d1f;
 
-        .result-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: linear-gradient(125deg, rgba(255,255,255,.2), transparent 35%, transparent 65%, rgba(255,255,255,.08));
-        }
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
 
-        .result-card > * { position: relative; }
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
 
         .result-card h1 {
-            margin: 0 0 1rem;
-            font-size: clamp(1.8rem, 5vw, 2.6rem);
-            font-weight: 750;
-            letter-spacing: -0.04em;
-            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            color: #007aff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .result-card p {
-            margin: 1.5rem 0;
-            padding: 1.35rem 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.05rem;
+            font-size: 17px;
             line-height: 1.7;
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
         }
 
         .result-card .btn-ios {
             display: inline-block;
-            padding: .8rem 1.4rem;
-            border: 1px solid rgba(255, 255, 255, .35);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, .15);
+            padding: 12px 28px;
+            border: none;
+            border-radius: 14px;
+            background: #007aff;
             color: #fff;
-            font-size: 1rem;
-            font-weight: 650;
+            font-size: 17px;
+            font-weight: 600;
             text-decoration: none;
-            transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+            transition: background 0.2s ease, transform 0.1s ease;
         }
 
         .result-card .btn-ios:hover {
-            background: rgba(255, 255, 255, .28);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
-            transform: translateY(-2px);
+            background: #0071e3;
         }
 
-        @media (max-width: 540px) {
-            body { padding: 16px; }
-            .result-card { padding: 2rem 1.35rem; border-radius: 22px; }
+        .result-card .btn-ios:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
